@@ -1,42 +1,40 @@
 # Voice AI Agent
 
-## 📖 Project Overview  
-Voice AI Agent is a fully Dockerized, turn-key FastAPI application that transforms ordinary phone calls into dynamic, AI-powered conversations. By seamlessly integrating Twilio’s telephony API, OpenAI’s Whisper for speech-to-text, GPT-3.5-turbo for natural language understanding and response generation, and text-to-speech for playback, this project delivers an end-to-end voice assistant you can deploy anywhere via ngrok.
+## Project Overview  
+Voice AI Agent is a Dockerized FastAPI application that transforms incoming phone calls into an interactive, AI-driven conversation. It leverages Twilio for telephony, OpenAI’s Whisper for speech-to-text, GPT-3.5-turbo for natural language understanding and response generation, and a TTS engine for playback—all exposed securely via an ngrok tunnel.
 
-## ✨ Key Features  
-- **Outbound & Inbound Call Handling**  
-  - Answer calls in real-time with a friendly spoken greeting  
-  - Route callers into a conversational loop until they say “goodbye”  
-- **Accurate Speech Recognition**  
-  - Record and stream audio to OpenAI’s Whisper model for fast, highly accurate transcription  
+## Key Features  
+- **Real-Time Call Handling**  
+  Answer calls automatically and prompt the caller with a friendly greeting.  
+- **Accurate Transcription**  
+  Record and send audio to Whisper for fast, high-fidelity speech recognition.  
 - **Contextual AI Dialogue**  
-  - Maintain session history for coherent multi-turn conversations  
-  - Leverage GPT-3.5-turbo to provide intelligent, context-aware responses  
-- **High-Quality TTS Playback**  
-  - Convert GPT replies into natural speech (TTS-1) and play back over the call  
+  Maintain session history and use GPT-3.5-turbo to generate coherent, context-aware replies.  
+- **Natural TTS Playback**  
+  Convert AI responses into speech (TTS-1) and stream back over the call.  
 - **Flexible Deployment**  
-  - Run locally for development or package into Docker for production  
-  - Expose your local server securely via ngrok (or any reverse tunnel)
+  Run locally for development or package into Docker for consistent, cloud-ready deployment.
 
-## 🏗️ Architecture & Workflow  
-1. **Twilio Webhook** → FastAPI `/twilio/voice` endpoint answers the call with XML TwiML  
-2. **Audio Recording** → Caller’s speech is recorded, then fetched as a WAV file  
-3. **Whisper Transcription** → Audio is sent to OpenAI Whisper; result is normalized to text  
-4. **GPT-3.5 Response** → Text is appended to the conversation history and sent to the chat API  
-5. **TTS Generation** → GPT reply is converted to speech and streamed into `response.mp3`  
-6. **Playback & Loop** → Twilio plays back the TTS file, then redirects to listen for the next user input  
+## Architecture and Workflow  
+1. **Incoming Call** → Twilio POSTs to `POST /twilio/voice`.  
+2. **Greeting & Record** → FastAPI returns TwiML to greet and record the caller.  
+3. **Download & Transcribe** → Fetch the recording, send to Whisper, retrieve text.  
+4. **Generate Reply** → Append to history, call GPT-3.5-turbo, receive response text.  
+5. **Synthesize & Play** → Convert text to speech, store as `response.mp3`, instruct Twilio to play it.  
+6. **Loop or Hang Up** → Redirect back to `/twilio/voice` until an exit phrase is detected.
 
-## 🚀 Why You’ll Love Voice AI Agent  
-- **Plug-and-Play**: Minimal configuration—just set your `.env` and ngrok URL  
-- **Scalable**: Docker container runs identically on any platform or cloud service  
-- **Extensible**: Easily swap models, adjust timeouts, or integrate new services  
-- **Interactive Demo**: Spin up locally and call your number to see it in action  
+## Benefits  
+- **Plug-and-Play**: Minimal configuration—just an `.env` and ngrok URL.  
+- **Scalable & Portable**: Docker container runs identically anywhere.  
+- **Extensible**: Swap models, tweak timeouts, or integrate additional services in minutes.
 
-## 🎯 Who Is This For?  
-- **Developers & Enthusiasts** who want hands-on experience with real-world voice AI  
-- **Prototype Builders** looking to add conversational interfaces to apps  
-- **Educators & Students** exploring speech technologies, NLP, and API orchestration  
+## Target Audience  
+- **Developers & AI Enthusiasts** exploring voice-first interfaces.  
+- **Prototype Builders** adding conversational IVR to their applications.  
+- **Educators & Students** learning about speech-to-text, NLP, and API orchestration.
 
----
-
-**Ready to get started?** Check out the [Getting Started](#-setup--local-development) section below and have your first AI-powered phone conversation in minutes!  
+## Getting Started  
+1. Clone the repo and navigate inside:  
+   ```bash
+   git clone https://github.com/<your-username>/Voice-AI-Agent.git
+   cd Voice-AI-Agent
