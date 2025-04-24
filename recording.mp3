@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TwilioResponse><RestException><Code>20404</Code><Message>The requested resource /2010-04-01/Accounts/ACd51a475680a2a890c9114827dae3da40/Recordings/RE44a373a42bea27c92bcb20307a573ef1.mp3 was not found</Message><MoreInfo>https://www.twilio.com/docs/errors/20404</MoreInfo><Status>404</Status></RestException></TwilioResponse>
